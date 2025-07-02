@@ -45,7 +45,7 @@ const HomeTestimonials = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">What Our Students Say</h2>
+          <h2 className="text-3xl font-bold text-primary mb-4">What Our Students Say</h2>
           <p className="text-lg text-base-content/80 max-w-2xl mx-auto">
             Don't just take our word for it - hear from our community of learners
           </p>

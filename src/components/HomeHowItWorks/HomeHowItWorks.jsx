@@ -25,7 +25,7 @@ const HomeHowItWorks = () => {
   ];
 
   return (
-    <section className="bg-base-100 py-20">
+    <section className="bg-base-100 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -34,7 +34,7 @@ const HomeHowItWorks = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl font-bold mb-4">How TutorBook Works</h2>
+          <h2 className="text-3xl font-bold mb-4 text-primary">How TutorBook Works</h2>
           <p className="text-lg text-base-content/80 max-w-2xl mx-auto">
             Get started with personalized learning in just three simple steps
           </p>

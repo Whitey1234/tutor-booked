@@ -11,9 +11,7 @@ const CategorySection = () => {
     fetch(`${envVars.backend_origin}/addtutior`)
       .then((res) => res.json())
       .then((data) => {
-        const uniqueCategories = [
-          ...new Set(data.map((tutor) => tutor.category.trim()))
-        ];
+        const uniqueCategories = [...new Set(data.map(tutor => tutor.category.trim()))];
         setCategories(uniqueCategories);
       });
   }, []);
@@ -23,24 +21,34 @@ const CategorySection = () => {
   };
 
   return (
-    <div className="my-10 px-4 max-w-6xl mx-auto ">
-      <h2 className="text-2xl font-bold mb-6 text-center">Explore Tutors by Category</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <section className="my-16 px-4 lg:px-20">
+      <h2 className="text-3xl font-bold mb-4 text-center text-primary">
+        Explore Tutors by Category
+      </h2>
+      <p className="text-center text-base-content/80 mb-8">
+        Find tutors based on your preferred learning categories.
+      </p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {categories.slice(0, 9).map((category, index) => (
           <div
             key={index}
             onClick={() => handleClick(category)}
-            className="flex items-center justify-between bg-white p-4 rounded-lg shadow hover:shadow-md cursor-pointer transition"
+            className="flex items-center justify-between 
+              bg-white dark:bg-gray-800 
+              text-gray-800 dark:text-gray-200 
+              p-4 rounded-lg shadow hover:shadow-md 
+              cursor-pointer transition"
           >
             <div className="flex items-center gap-3">
               <FaChalkboardTeacher className="text-blue-500 text-xl" />
-              <span className="font-semibold">{category.trim()} Tutors</span>
+              <span className="font-semibold">{category} Tutors</span>
             </div>
-            <FaArrowRight className="text-gray-400" />
+            <FaArrowRight className="text-gray-400 dark:text-gray-300" />
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
 

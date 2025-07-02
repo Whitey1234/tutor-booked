@@ -4,13 +4,20 @@ import { Outlet } from 'react-router';
 import Footer from '../../components/Footer/Footer';
 
 const Root = () => {
-    return (
-        <div>
-            <Nav></Nav>
-            <Outlet></Outlet>
-            <Footer></Footer>
-        </div>
-    );
+  return (
+    <div className="min-h-screen flex flex-col justify-between">
+      {/* Top: Navbar */}
+      <Nav />
+
+      {/* Middle: Dynamic Page Content */}
+      <main className="flex-grow">
+        <Outlet />
+      </main>
+
+      {/* Bottom: Footer */}
+      <Footer />
+    </div>
+  );
 };
 
 export default Root;

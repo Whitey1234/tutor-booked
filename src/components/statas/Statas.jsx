@@ -13,7 +13,7 @@ const Statas = () => {
       .then(data => setPromise(data));
   }, []);
 
-  // Fetch total users from /userstats
+  // Fetch total users
   useEffect(() => {
     fetch(`${envVars.backend_origin}/userstats`)
       .then(res => res.json())
@@ -21,7 +21,7 @@ const Statas = () => {
       .catch(err => console.error('Error fetching total users:', err));
   }, []);
 
-  // Calculating stats from tutors
+  // Calculating statistics
   const totalTutors = promise.length;
   const totalReviews = promise.reduce((sum, tutor) => sum + Number(tutor.review), 0);
   const totalLanguages = [...new Set(promise.map(tutor => tutor.language.trim()))].length;
@@ -34,23 +34,27 @@ const Statas = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-6 px-4">
-      {stats.map((item, index) => (
-        <div key={index} className={`rounded-xl shadow-md p-6 text-center ${item.color}`}>
-          <p className="text-md font-medium text-gray-500">{item.label}</p>
-          <p className={`text-3xl font-bold ${item.textColor}`}>
-            <CountUp
-              from={0}
-              to={item.value}
-              separator=","
-              direction="up"
-              duration={3}
-              className="count-up-text"
-            /> +
-          </p>
-        </div>
-      ))}
-    </div>
+    <section className="my-16 px-4 lg:px-20">
+      <h2 className="text-3xl font-bold text-center text-primary mb-10"> Our statas</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((item, index) => (
+          <div key={index} className={`rounded-xl shadow-md p-6 text-center ${item.color}`}>
+            <p className="text-md font-medium text-gray-500">{item.label}</p>
+            <p className={`text-3xl font-bold ${item.textColor}`}>
+              <CountUp
+                from={0}
+                to={item.value}
+                separator=","
+                direction="up"
+                duration={3}
+                className="count-up-text"
+              /> +
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 };
 

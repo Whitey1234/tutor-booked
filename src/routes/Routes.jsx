@@ -13,6 +13,7 @@ import MyTutors from "../pages/MyTutors/MyTutors";
 // import { myTutorsLoader } from "../myTutorsLoader";
 import Error from "../components/Error/Error";
 import { envVars } from "../config";
+import AllCampaigns from "../pages/Allcampign/AllCampaigns";
 
 export const router = createBrowserRouter([
     
@@ -66,6 +67,11 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <Login></Login>,
       },
+      {
+       path: '/all-campaigns',
+       element: <AllCampaigns />
+     }
+
       
     ],
     

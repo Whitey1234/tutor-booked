@@ -34,7 +34,7 @@ const Addtutior = () => {
     return (
         <div>
              <div className="max-w-xl mx-auto bg-white p-6 shadow-md mt-6 rounded-xl">
-      <h2 className="text-2xl font-bold mb-4 text-center">Add Tutor</h2>
+      <h2 className="text-2xl font-bold mb-4 text-primary text-center">Add Tutor</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         
         <input type="text" name='name' defaultValue={user.displayName} readOnly placeholder='Name'   required className="input input-bordered w-full" />

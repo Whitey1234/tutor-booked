@@ -1,15 +1,14 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router";
 import { AuthContext } from "../../components/Auth/AuthProvider";
 import { envVars } from "../../config";
+import { div } from "framer-motion/client";
 
 const MyTutors = () => {
   const [tutors, setTutors] = useState([]);
   const [editingTutor, setEditingTutor] = useState(null);
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) return;
@@ -60,81 +59,86 @@ const MyTutors = () => {
     if (res.data.modifiedCount > 0) {
       Swal.fire("Updated!", "Tutor info has been updated.", "success");
       setEditingTutor(null);
-      const newData = await axios.get(
-        `${envVars.backend_origin}/addtutior`
-      );
-      setTutors(newData.data.filter((tutor) => tutor.email === user.email));
+      const { data } = await axios.get(`${envVars.backend_origin}/addtutior`);
+      setTutors(data.filter((tutor) => tutor.email === user.email));
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
-      <h2 className="text-2xl font-bold mb-4 text-center">My Tutors</h2>
-      {tutors.map((tutor) => (
-        <div
-          key={tutor._id}
-          className="card shadow p-4 mb-4 bg-white border rounded"
-        >
-          <img
-            src={tutor.image}
-            alt="tutor"
-            className="w-full h-48 object-cover rounded mb-2"
-          />
-          <h3 className="text-xl font-semibold">{tutor.name}</h3>
-          <p className="text-sm text-gray-500 mb-1">{tutor.email}</p>
-          <p>
-            <strong>Language:</strong> {tutor.language}
-          </p>
-          <p>
-            <strong>Price:</strong> ৳ {tutor.price}
-          </p>
-          <p>
-            <strong>Description:</strong> {tutor.description}
-          </p>
-          <p>
-            <strong>Review:</strong> {tutor.review || 0}
-          </p>
-          <div className="flex gap-4 mt-3">
-            <button
-              className="btn btn-sm btn-error"
-              onClick={() => handleDelete(tutor._id)}
-            >
-              Delete
-            </button>
-            <button
-              className="btn btn-sm btn-info"
-              onClick={() => handleUpdate(tutor)}
-            >
-              Update
-            </button>
-          </div>
-        </div>
-      ))}
+    <>
+    {
+      tutors.length === 0 ?<div className="flex justify-center my-10"> <span className="loading loading-bars loading-xl text-center"></span>  </div>  :  <div className="max-w-7xl mx-auto px-4 py-8 text-gray-800 dark:text-gray-100">
+      <h2 className="text-3xl text-primary font-bold mb-6 text-center">My Tutors ({tutors.length})</h2>
 
-      {/* Modal for update */}
+      <div className="overflow-x-auto border border-gray-300 dark:border-gray-700 rounded-lg">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-900">
+          <thead className="bg-gray-100 dark:bg-gray-800">
+            <tr>
+              <th className="px-4 py-3 text-left text-sm font-medium">Photo</th>
+              <th className="px-4 py-3 text-left text-sm font-medium">Name</th>
+              <th className="px-4 py-3 text-left text-sm font-medium">Language</th>
+              <th className="px-4 py-3 text-left text-sm font-medium">Price</th>
+              <th className="px-4 py-3 text-left text-sm font-medium">Review</th>
+              <th className="px-4 py-3 text-left text-sm font-medium">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            {tutors.map((tutor) => (
+
+              <tr key={tutor._id}>
+                <td className="px-4 py-3">
+                  <img
+                    src={tutor.image || "https://via.placeholder.com/100"}
+                    alt={tutor.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                </td>
+                <td className="px-4 py-3">{tutor.name}</td>
+                <td className="px-4 py-3">{tutor.language}</td>
+                <td className="px-4 py-3">৳ {tutor.price}</td>
+                <td className="px-4 py-3">{tutor.review || 0}</td>
+                <td className="px-4 py-3">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleUpdate(tutor)}
+                      className="btn btn-sm btn-info"
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={() => handleDelete(tutor._id)}
+                      className="btn btn-sm btn-error"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Update Modal */}
       {editingTutor && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <form
             onSubmit={handleUpdateSubmit}
-            className="bg-white p-6 rounded-lg shadow-xl w-96 space-y-3"
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl w-96 space-y-3 text-gray-800 dark:text-gray-100"
           >
-            <h3 className="text-xl font-bold">Update Tutor</h3>
-
-            {/* Read-only fields */}
+            <h3 className="text-xl font-bold ">Update Tutor</h3>
             <input
               type="text"
               readOnly
               defaultValue={editingTutor.name}
-              className="input input-bordered w-full bg-gray-100"
+              className="input input-bordered w-full bg-gray-100 dark:bg-gray-700"
             />
             <input
               type="text"
               readOnly
               defaultValue={editingTutor.email}
-              className="input input-bordered w-full bg-gray-100"
+              className="input input-bordered w-full bg-gray-100 dark:bg-gray-700"
             />
-
-            {/* Editable fields */}
             <input
               type="text"
               name="image"
@@ -186,6 +190,11 @@ const MyTutors = () => {
         </div>
       )}
     </div>
+
+    }
+    
+    </>
+   
   );
 };
 
